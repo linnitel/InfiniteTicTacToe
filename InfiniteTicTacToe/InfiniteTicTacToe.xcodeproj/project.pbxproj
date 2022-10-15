@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A300AD828FAB145006613E6 /* DrawnButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A300AD728FAB145006613E6 /* DrawnButton.swift */; };
 		4A37CEDE28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A37CEDD28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift */; };
 		4A37CEE028F9E17D00E680A6 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A37CEDF28F9E17D00E680A6 /* GameView.swift */; };
 		4A37CEE228F9E18000E680A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A37CEE128F9E18000E680A6 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A300AD728FAB145006613E6 /* DrawnButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawnButton.swift; sourceTree = "<group>"; };
 		4A37CEDA28F9E17D00E680A6 /* InfiniteTicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniteTicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A37CEDD28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteTicTacToeApp.swift; sourceTree = "<group>"; };
 		4A37CEDF28F9E17D00E680A6 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -73,6 +75,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A300AD628FAB123006613E6 /* Genaral App Views */ = {
+			isa = PBXGroup;
+			children = (
+				4A300AD728FAB145006613E6 /* DrawnButton.swift */,
+			);
+			path = "Genaral App Views";
+			sourceTree = "<group>";
+		};
 		4A37CED128F9E17D00E680A6 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +106,7 @@
 		4A37CEDC28F9E17D00E680A6 /* InfiniteTicTacToe */ = {
 			isa = PBXGroup;
 			children = (
+				4A300AD628FAB123006613E6 /* Genaral App Views */,
 				4A37CF0928F9E89600E680A6 /* Resources */,
 				4A37CF0828F9E88E00E680A6 /* Main */,
 				4A37CF0728F9E88300E680A6 /* GameView */,
@@ -300,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A300AD828FAB145006613E6 /* DrawnButton.swift in Sources */,
 				4A37CEE028F9E17D00E680A6 /* GameView.swift in Sources */,
 				4A37CEDE28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift in Sources */,
 				4A37CF0D28F9F17E00E680A6 /* GameModel.swift in Sources */,

@@ -25,7 +25,8 @@ struct GameView: View {
 	var body: some View {
 
 		GeometryReader { geometry in
-			VStack {
+			VStack(spacing: 40) {
+				Spacer()
 				HStack {
 					PlayerDiscriptionView(
 						playerOrder: 1,
@@ -39,7 +40,6 @@ struct GameView: View {
 					)
 					.frame(maxWidth: geometry.size.width / 2 - 5)
 				}
-				Spacer()
 				LazyVGrid(columns: columns) {
 					ForEach(0..<9) { index in
 						ZStack {
@@ -50,21 +50,23 @@ struct GameView: View {
 									width: width,
 									height: width
 								)
-							Image(self.moves[index]?.indicator ?? "")
-								.resizable()
-								.frame(
-									width: width / 3,
-									height: width / 3)
+							if let indicator = self.moves[index]?.indicator {
+								Image(indicator)
+									.resizable()
+									.frame(width: width / 3, height: width / 3)
+							}
 						}
 						.onTapGesture {
-							if self.gameSettings.circlesPLayer.playerType == .computer {
-								self.isBoardDisables = true
+							guard !isSquareOccupied(in: self.moves, for: index) else {
+								return
 							}
-							guard !isSquareOccupied(in: self.moves, for: index) else { return }
 							self.moves[index] = Move(
 								player: self.isCrossesTurn ? .crosses : .circles,
 								boardIndex: index
 							)
+							if self.gameSettings.circlesPLayer.playerType == .computer {
+								self.isBoardDisables = true
+							}
 							self.isCrossesTurn.toggle()
 
 							DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -74,14 +76,17 @@ struct GameView: View {
 									boardIndex: computerPosition
 								)
 							}
-							self.isBoardDisables = false
+							if self.gameSettings.circlesPLayer.playerType == .computer {
+								self.isBoardDisables = false
+							}
 							self.isCrossesTurn.toggle()
 						}
 					}
 				}
+				.disabled(self.isBoardDisables)
+				DrawnButton(action: self.restartGame, title: "Restart game")
 				Spacer()
 			}
-			.disabled(self.isBoardDisables)
 			.padding()
 		}
 	}
@@ -97,6 +102,11 @@ struct GameView: View {
 			movePosition = Int.random(in: 0..<9)
 		}
 		return movePosition
+	}
+
+	func restartGame() {
+		self.moves = Array(repeating: nil, count: 9)
+		self.isBoardDisables = false
 	}
 }
 
