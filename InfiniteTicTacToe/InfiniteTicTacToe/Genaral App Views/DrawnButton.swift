@@ -20,7 +20,7 @@ struct DrawnButton: View {
 					.resizable()
 					.scaledToFit()
 					.frame(width: 240, alignment: .center)
-				Text("Restart game")
+				Text(self.title)
 					.fontWeight(.black)
 					.foregroundColor(.black)
 					.font(.system(size: 20))

@@ -12,6 +12,33 @@ enum Player {
 	case circles
 }
 
+enum GameType {
+	case three
+	case four
+	case five
+
+	init(from type: String) {
+		if type == "3" {
+			self = .three
+		} else if type == "4" {
+			self = .four
+		} else {
+			self = .five
+		}
+	}
+
+	var string: String {
+		switch self {
+			case .three:
+				return "3"
+			case .four:
+				return "4"
+			case .five:
+				return "5"
+		}
+	}
+}
+
 struct Move {
 	let player: Player
 	let boardIndex: Int
@@ -22,9 +49,9 @@ struct Move {
 }
 
 struct GameSettings {
-	let crossesPlayer: PlayerIdentity
-	let circlesPLayer: PlayerIdentity
-	let gameType: GameType
+	var crossesPlayer: PlayerType
+	var circlesPLayer: PlayerType
+	var gameType: GameType
 
 	var boardSize: Int {
 		switch gameType {
@@ -32,7 +59,7 @@ struct GameSettings {
 				return 9
 			case .four:
 				return 16
-			case .five, .infinite:
+			case .five:
 				return 25
 		}
 	}
@@ -43,7 +70,7 @@ struct GameSettings {
 				return 3
 			case .four:
 				return 4
-			case .five, .infinite:
+			case .five:
 				return 5
 		}
 	}
@@ -54,19 +81,25 @@ struct PlayerIdentity {
 	let playerName: String
 }
 
-extension PlayerIdentity {
-	static let mockPlayerOne = PlayerIdentity(playerType: .human, playerName: "Vasya")
-	static let mockPlayerTwo = PlayerIdentity(playerType: .computer, playerName: "Computer")
+extension PlayerType {
+	static let mockPlayerOne: PlayerType = .human
+	static let mockPlayerTwo: PlayerType = .computer
 }
 
-enum PlayerType {
+enum PlayerType: Equatable {
 	case human
 	case computer
-}
 
-enum GameType {
-	case three
-	case four
-	case five
-	case infinite
+	var string: String {
+		switch self {
+			case .human:
+				return "Human"
+			case .computer:
+				return "Computer"
+		}
+	}
+
+	init(from type: String) {
+		self = type == "Human" ? .human : .computer
+	}
 }

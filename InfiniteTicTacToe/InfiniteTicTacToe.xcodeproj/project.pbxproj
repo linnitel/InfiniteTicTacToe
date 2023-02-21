@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A1043E829A47F5900938D49 /* GameSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1043E729A47F5900938D49 /* GameSettingsModel.swift */; };
+		4A27D14E299FA02200BE71AA /* GameSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A27D14D299FA02200BE71AA /* GameSettingsViewModel.swift */; };
+		4A27D150299FA03400BE71AA /* GameSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A27D14F299FA03400BE71AA /* GameSettingsView.swift */; };
+		4A27D153299FA8AF00BE71AA /* NavigationButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A27D152299FA8AF00BE71AA /* NavigationButtonView.swift */; };
 		4A300AD828FAB145006613E6 /* DrawnButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A300AD728FAB145006613E6 /* DrawnButton.swift */; };
 		4A37CEDE28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A37CEDD28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift */; };
 		4A37CEE028F9E17D00E680A6 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A37CEDF28F9E17D00E680A6 /* GameView.swift */; };
@@ -36,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A1043E729A47F5900938D49 /* GameSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsModel.swift; sourceTree = "<group>"; };
+		4A27D14D299FA02200BE71AA /* GameSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewModel.swift; sourceTree = "<group>"; };
+		4A27D14F299FA03400BE71AA /* GameSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsView.swift; sourceTree = "<group>"; };
+		4A27D152299FA8AF00BE71AA /* NavigationButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButtonView.swift; sourceTree = "<group>"; };
 		4A300AD728FAB145006613E6 /* DrawnButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawnButton.swift; sourceTree = "<group>"; };
 		4A37CEDA28F9E17D00E680A6 /* InfiniteTicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniteTicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A37CEDD28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteTicTacToeApp.swift; sourceTree = "<group>"; };
@@ -75,10 +83,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A27D149299F9FD600BE71AA /* GameSettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				4A27D151299FA28800BE71AA /* Model */,
+				4A27D14B299F9FEE00BE71AA /* ViewModel */,
+				4A27D14A299F9FE800BE71AA /* View */,
+			);
+			path = GameSettingsView;
+			sourceTree = "<group>";
+		};
+		4A27D14A299F9FE800BE71AA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4A27D14F299FA03400BE71AA /* GameSettingsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4A27D14B299F9FEE00BE71AA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4A27D14D299FA02200BE71AA /* GameSettingsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4A27D14C299FA00400BE71AA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4A27D151299FA28800BE71AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4A1043E729A47F5900938D49 /* GameSettingsModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		4A300AD628FAB123006613E6 /* Genaral App Views */ = {
 			isa = PBXGroup;
 			children = (
 				4A300AD728FAB145006613E6 /* DrawnButton.swift */,
+				4A27D152299FA8AF00BE71AA /* NavigationButtonView.swift */,
 			);
 			path = "Genaral App Views";
 			sourceTree = "<group>";
@@ -106,6 +156,7 @@
 		4A37CEDC28F9E17D00E680A6 /* InfiniteTicTacToe */ = {
 			isa = PBXGroup;
 			children = (
+				4A27D149299F9FD600BE71AA /* GameSettingsView */,
 				4A300AD628FAB123006613E6 /* Genaral App Views */,
 				4A37CF0928F9E89600E680A6 /* Resources */,
 				4A37CF0828F9E88E00E680A6 /* Main */,
@@ -143,6 +194,7 @@
 		4A37CF0728F9E88300E680A6 /* GameView */ = {
 			isa = PBXGroup;
 			children = (
+				4A27D14C299FA00400BE71AA /* ViewModel */,
 				4A37CF0A28F9F16700E680A6 /* Model */,
 				4A37CF0B28F9F16C00E680A6 /* View */,
 			);
@@ -311,10 +363,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A27D14E299FA02200BE71AA /* GameSettingsViewModel.swift in Sources */,
 				4A300AD828FAB145006613E6 /* DrawnButton.swift in Sources */,
 				4A37CEE028F9E17D00E680A6 /* GameView.swift in Sources */,
 				4A37CEDE28F9E17D00E680A6 /* InfiniteTicTacToeApp.swift in Sources */,
 				4A37CF0D28F9F17E00E680A6 /* GameModel.swift in Sources */,
+				4A27D150299FA03400BE71AA /* GameSettingsView.swift in Sources */,
+				4A1043E829A47F5900938D49 /* GameSettingsModel.swift in Sources */,
+				4A27D153299FA8AF00BE71AA /* NavigationButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
