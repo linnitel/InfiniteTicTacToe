@@ -8,23 +8,19 @@
 import SwiftUI
 
 struct GameSettingsView: View {
-	@StateObject var viewModel: GameSettingsViewModel
+//	@StateObject var viewModel: GameSettingsViewModel
 
-	@State var gameSettings = GameSettings(crossesPlayer: .human, circlesPLayer: .computer, gameType: .three)
-
-//	@State var playerOneIdentity: PlayerType = .human
-//	@State var playerTwoIdentity: PlayerType = .computer
-//	@State var gameType: GameType = .three
+	@State var gameSettings: GameSettings
 
 	var body: some View {
 		NavigationView {
 			VStack {
 				HStack(spacing: 20) {
-					PlayerSettingView(title: "Player 1:", identity: $gameSettings.crossesPlayer, selected: gameSettings.crossesPlayer.string)
-					PlayerSettingView(title: "Player 2:", identity: $gameSettings.circlesPLayer, selected: gameSettings.circlesPLayer.string)
+					PlayerSettingView(title: "Player 1:", identity: $gameSettings.crossesPlayer, secondPlayerIdentity: $gameSettings.circlesPLayer)
+					PlayerSettingView(title: "Player 2:", identity: $gameSettings.circlesPLayer, secondPlayerIdentity: $gameSettings.crossesPlayer)
 				}
 				.padding()
-				GameSizeView(title: "Board Size:", selectedGame: $gameSettings.gameType)
+				GameSizeView(title: "Board Size:", selectedGame: $gameSettings.gameType, selected: gameSettings.gameType.string)
 					.padding(.bottom)
 				NavigationLink(destination: GameView(gameSettings: $gameSettings)) {
 					NavigationButtonView(title: "Start")
@@ -38,22 +34,21 @@ struct GameSettingsView: View {
 
 struct GameSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-//		GameSettingsView(viewModel: GameSettingsViewModel(), playerOneIdentity: .human, playerTwoIdentity: .computer)
-		GameSettingsView(viewModel: GameSettingsViewModel())
+		GameSettingsView(gameSettings: GameSettings(crossesPlayer: .human, circlesPLayer: .computer, gameType: .four))
     }
 }
 
 struct PlayerSettingView: View {
 	let title: String
 	@Binding var identity: PlayerType
-	@State var selected: String
+	@Binding var secondPlayerIdentity: PlayerType
 
 	var body: some View {
 		VStack {
 			HeaderTextView(title: self.title)
 			HStack(spacing: 10) {
-				OptionsPlayerView(title: "Human", gameType: $identity)
-				OptionsPlayerView(title: "Computer", gameType: $identity)
+				OptionsPlayerView(title: "Human", gameType: $identity, secondPlayerType: self.$secondPlayerIdentity)
+				OptionsPlayerView(title: "Computer", gameType: $identity, secondPlayerType: self.$secondPlayerIdentity)
 			}
 			.padding(.top, 10)
 		}
@@ -63,7 +58,7 @@ struct PlayerSettingView: View {
 struct GameSizeView: View {
 	let title: String
 	@Binding var selectedGame: GameType
-	@State var selected: String = "3"
+	@State var selected: String
 
 	var body: some View {
 		VStack {
@@ -99,8 +94,8 @@ struct OptionsTextView: View {
 				Image("squaresBackground")
 					.resizable()
 					.frame(
-						width: 40,
-						height: 40
+						width: 60,
+						height: 60
 					)
 				Button (action: { self.selected = self.title }) {
 					Text(self.title)
@@ -119,24 +114,38 @@ struct OptionsTextView: View {
 	}
 }
 
+struct OptionButton: View {
+	let title: String
+	let font: Font
+
+	@Binding var gameType: PlayerType
+	@Binding var secondPlayerType: PlayerType
+
+	var body: some View {
+		Button (action: {
+			self.gameType = PlayerType(from: self.title)
+			if self.secondPlayerType == .computer, self.gameType == .computer {
+				self.secondPlayerType = .human
+			}
+		}) {
+			Text(self.title)
+				.font(self.font)
+				.lineLimit(3)
+		}
+		.foregroundColor(.black)
+	}
+}
+
 struct OptionsPlayerView: View {
 	let title: String
 	@Binding var gameType: PlayerType
+	@Binding var secondPlayerType: PlayerType
 
 	var body: some View {
 		if gameType.string == title {
-			Button (action: { self.gameType = PlayerType(from: self.title) }) {
-				Text(self.title)
-					.font(Font.headline)
-					.lineLimit(3)
-			}
-			.foregroundColor(.black)
+			OptionButton(title: self.title, font: Font.headline, gameType: self.$gameType, secondPlayerType: self.$secondPlayerType)
 		} else {
-			Button (action: { self.gameType = PlayerType(from: self.title) }) {
-				Text(self.title)
-					.lineLimit(3)
-			}
-			.foregroundColor(.black)
+			OptionButton(title: self.title, font: Font.body, gameType: self.$gameType, secondPlayerType: self.$secondPlayerType)
 		}
 	}
 }

@@ -11,8 +11,8 @@ import SwiftUI
 struct InfiniteTicTacToeApp: App {
     var body: some Scene {
         WindowGroup {
-			GameSettingsView(viewModel: GameSettingsViewModel())
-//            GameView()
+			let gameSettings = GameSettings(crossesPlayer: .human, circlesPLayer: .computer, gameType: .three)
+			GameSettingsView(gameSettings: gameSettings)
         }
     }
 }

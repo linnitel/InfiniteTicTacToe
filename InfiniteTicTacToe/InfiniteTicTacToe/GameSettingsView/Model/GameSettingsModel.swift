@@ -8,5 +8,6 @@
 import Foundation
 
 struct GameSettingsModel {
-	
+	var crossesPlayerType
+	var cirlcesPlayerType
 }

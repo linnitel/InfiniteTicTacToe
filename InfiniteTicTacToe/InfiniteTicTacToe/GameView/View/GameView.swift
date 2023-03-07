@@ -7,36 +7,24 @@
 
 import SwiftUI
 
-let columns: [GridItem] = [GridItem(.flexible()),
-						   GridItem(.flexible()),
-						   GridItem(.flexible())]
-
 struct GameView: View {
+
+//	@ObservedObject var gameViewModel
 	@Binding var gameSettings: GameSettings
-//	@State var gameSettings: GameSettings
 
 	@State private var moves: [Move?] = Array(repeating: nil, count: 9)
 	@State private var isCrossesTurn: Bool = true
 	@State private var isBoardDisables: Bool = false
 
-	var body: some View {
+	var columns: [GridItem] = [GridItem(.flexible()),
+							   GridItem(.flexible()),
+							   GridItem(.flexible())]
 
+	var body: some View {
 		GeometryReader { geometry in
 			VStack(spacing: 40) {
 				Spacer()
-				HStack {
-					PlayerDiscriptionView(
-						playerOrder: 1,
-						playerName: self.gameSettings.crossesPlayer.string
-					)
-					.frame(maxWidth: geometry.size.width / 2 - 5)
-					Spacer()
-					PlayerDiscriptionView(
-						playerOrder: 2,
-						playerName: self.gameSettings.circlesPLayer.string
-					)
-					.frame(maxWidth: geometry.size.width / 2 - 5)
-				}
+				HeaderView(crossesPlayer: gameSettings.crossesPlayer, circlesPlayer: gameSettings.circlesPLayer)
 				LazyVGrid(columns: columns) {
 					ForEach(0..<9) { index in
 						ZStack {
@@ -54,53 +42,23 @@ struct GameView: View {
 							}
 						}
 						.onTapGesture {
-							guard !isSquareOccupied(in: self.moves, for: index) else {
-								return
-							}
-							self.moves[index] = Move(
-								player: self.isCrossesTurn ? .crosses : .circles,
-								boardIndex: index
-							)
-							if self.gameSettings.circlesPLayer == .computer {
-								self.isBoardDisables = true
-							}
-							self.isCrossesTurn.toggle()
-
-							if self.isWinCondition(for: .crosses, in: moves) {
-								print("\(self.gameSettings.crossesPlayer.string) wins!")
-								return
-							}
-
-							if isDrawCondition(in: moves) {
-								print("Draw!")
-								return
-							}
-
-							DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-
-								let computerPosition = self.determinComputerMovePosition(in: moves)
-								moves[computerPosition] = Move(
-									player: .circles,
-									boardIndex: computerPosition
-								)
-
-								if self.isWinCondition(for: .circles, in: moves) {
-									print("\(self.gameSettings.circlesPLayer.string) wins!")
-									return
-								}
-
-								if self.gameSettings.circlesPLayer == .computer {
-									self.isBoardDisables = false
-								}
-
-								self.isCrossesTurn.toggle()
-
-								if isDrawCondition(in: moves) {
-									print("Draw!")
-									return
-								}
-							}
+							self.didTap(index)
 						}
+					}
+				}
+				.onAppear {
+					if self.gameSettings.crossesPlayer == .computer {
+						self.isBoardDisables = true
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+							let computerPosition = self.determinComputerMovePosition(in: moves)
+							moves[computerPosition] = Move(
+								player: .crosses,
+								boardIndex: computerPosition
+							)
+							
+							self.isCrossesTurn.toggle()
+						}
+						self.isBoardDisables = false
 					}
 				}
 				.disabled(self.isBoardDisables)
@@ -111,21 +69,70 @@ struct GameView: View {
 		}
 	}
 
+	func didTap(_ index: Int) {
+		guard !isSquareOccupied(in: self.moves, for: index) else {
+			return
+		}
+		self.moves[index] = Move(
+			player: self.isCrossesTurn ? .crosses : .circles,
+			boardIndex: index
+		)
+		if self.gameSettings.circlesPLayer == .computer {
+			self.isBoardDisables = true
+		}
+		self.isCrossesTurn.toggle()
+
+		if self.isWinCondition(for: .crosses, in: moves) {
+			print("\(self.gameSettings.crossesPlayer.string) wins!")
+			return
+		}
+
+		if isDrawCondition(in: moves) {
+			print("Draw!")
+			return
+		}
+
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+			let computerPosition = self.determinComputerMovePosition(in: moves)
+			moves[computerPosition] = Move(
+				player: .circles,
+				boardIndex: computerPosition
+			)
+
+			if self.isWinCondition(for: .circles, in: moves) {
+				print("\(self.gameSettings.circlesPLayer.string) wins!")
+				return
+			}
+
+			if self.gameSettings.circlesPLayer == .computer {
+				self.isBoardDisables = false
+			}
+
+			self.isCrossesTurn.toggle()
+
+			if isDrawCondition(in: moves) {
+				print("Draw!")
+				return
+			}
+		}
+	}
+
 	func isSquareOccupied(in moves: [Move?], for index: Int) -> Bool {
 		moves.contains(where: { $0?.boardIndex == index })
 	}
 
 	func determinComputerMovePosition(in moves: [Move?]) -> Int {
-		var movePosition = Int.random(in: 0..<9)
+		var movePosition = Int.random(in: 0..<moves.count)
 
 		while self.isSquareOccupied(in: moves, for: movePosition) {
-			movePosition = Int.random(in: 0..<9)
+			movePosition = Int.random(in: 0..<moves.count)
 		}
 		return movePosition
 	}
 
 	func restartGame() {
-		self.moves = Array(repeating: nil, count: 9)
+		self.moves = Array(repeating: nil, count: self.moves.count)
 		self.isBoardDisables = false
 		self.isCrossesTurn = true
 	}
@@ -146,6 +153,26 @@ struct GameView: View {
 
 	func isDrawCondition(in moves: [Move?]) -> Bool {
 		self.moves.compactMap({ $0 }).count == 9
+	}
+}
+
+struct HeaderView: View {
+	let crossesPlayer: PlayerType
+	let circlesPlayer: PlayerType
+
+	var body: some View {
+		HStack(alignment: .bottom) {
+			PlayerDiscriptionView(
+				playerOrder: 1,
+				playerName: crossesPlayer.string
+			)
+			Spacer()
+			PlayerDiscriptionView(
+				playerOrder: 2,
+				playerName: circlesPlayer.string
+			)
+		}
+		.padding()
 	}
 }
 
